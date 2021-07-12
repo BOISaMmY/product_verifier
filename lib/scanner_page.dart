@@ -22,7 +22,7 @@ class _QRScanPageState extends State<QRScanPage> {
       id: '002',
       manufacturer: 'Xiaomi',
       name: "POCO F1",
-      type: 'Mobile Phone',
+      type: 'gadget',
     ),
   ];
   String qrCode = 'Unknown';
@@ -34,6 +34,7 @@ class _QRScanPageState extends State<QRScanPage> {
       manufacturer: pManf,
       name: pName,
       type: pType,
+      status: 2,
     );
     productHistory.add(newEntry);
   }
