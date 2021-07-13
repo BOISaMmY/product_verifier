@@ -104,6 +104,9 @@ class SignInDemoState extends State<SignInDemo> {
     } catch (error) {
       print(error);
     }
+    setState(() {
+      
+    });
   }
 
   Future<void> _handleSignOut() => _googleSignIn.disconnect();
