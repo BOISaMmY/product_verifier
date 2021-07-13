@@ -6,7 +6,7 @@ import './scanner_page.dart';
 void main() {
   runApp(MyApp());
 }
-
+//(test)this is the new login branch
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
