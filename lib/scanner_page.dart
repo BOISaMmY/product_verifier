@@ -4,6 +4,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:product_verifier/widgets/scanned_history_list.dart';
 import './models/product.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class QRScanPage extends StatefulWidget {
   @override
@@ -29,14 +30,33 @@ class _QRScanPageState extends State<QRScanPage> {
   int newScan = 1;
 
   void addNewHistory(String pId, String pManf, String pName, String pType) {
-    final newEntry = Product(
-      id: pId,
-      manufacturer: pManf,
-      name: pName,
-      type: pType,
-      status: 2,
-    );
-    productHistory.add(newEntry);
+    const url = "http://223.181.131.142:8081/verify";
+    String par = json.encode(<String, String>{'manf': pManf, 'id': pId});
+    // String req = '{"manf":"samco","id": "1"}';
+    http
+        .post(
+      Uri.parse(url),
+      headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: par,
+    )
+        .then((response) {
+      var res = json.decode(response.body);
+      print(res);
+      final newEntry = Product(
+        id: pId,
+        manufacturer: pManf,
+        name: pName,
+        type: pType,
+        status: res['stat'],
+        curOwner: res['owner'],
+      );
+      productHistory.add(newEntry);
+      setState(() {
+        
+      });
+    });
   }
 
   void deleteProductCard(Product p) {
@@ -81,7 +101,7 @@ class _QRScanPageState extends State<QRScanPage> {
             ),
           ),
         ),
-        ScannedHistoryList(productHistory,deleteProductCard),
+        ScannedHistoryList(productHistory, deleteProductCard),
       ],
     );
   }
