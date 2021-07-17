@@ -32,7 +32,6 @@ class _QRScanPageState extends State<QRScanPage> {
   void addNewHistory(String pId, String pManf, String pName, String pType) {
     const url = "http://223.181.131.142:8081/verify";
     String par = json.encode(<String, String>{'manf': pManf, 'id': pId});
-    // String req = '{"manf":"samco","id": "1"}';
     http
         .post(
       Uri.parse(url),
