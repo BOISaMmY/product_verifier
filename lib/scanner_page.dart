@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -7,11 +8,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class QRScanPage extends StatefulWidget {
+  const QRScanPage({Key? key, required User user})
+      : _user = user,
+        super(key: key);
+
+  final User _user;
   @override
   State<StatefulWidget> createState() => _QRScanPageState();
 }
 
 class _QRScanPageState extends State<QRScanPage> {
+  late User _user = widget._user;
   final List<Product> productHistory = [
     Product(
       id: '001',
@@ -30,13 +37,13 @@ class _QRScanPageState extends State<QRScanPage> {
   int newScan = 1;
 
   void addNewHistory(String pId, String pManf, String pName, String pType) {
-    const url = "http://223.181.131.142:8081/verify";
+    const url = "http://171.61.1.1:8081/verify";
     String par = json.encode(<String, String>{'manf': pManf, 'id': pId});
     http
         .post(
       Uri.parse(url),
       headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
       },
       body: par,
     )
@@ -52,9 +59,7 @@ class _QRScanPageState extends State<QRScanPage> {
         curOwner: res['owner'],
       );
       productHistory.add(newEntry);
-      setState(() {
-        
-      });
+      setState(() {});
     });
   }
 
@@ -62,6 +67,12 @@ class _QRScanPageState extends State<QRScanPage> {
     setState(() {
       productHistory.remove(p);
     });
+  }
+
+  @override
+  void initState() {
+    _user = widget._user;
+    super.initState();
   }
 
   @override
@@ -100,7 +111,7 @@ class _QRScanPageState extends State<QRScanPage> {
             ),
           ),
         ),
-        ScannedHistoryList(productHistory, deleteProductCard),
+        ScannedHistoryList(aproductHistory: productHistory, adeletepr: deleteProductCard,user:_user),
       ],
     );
   }

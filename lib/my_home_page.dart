@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:product_verifier/login_screen.dart';
 import 'package:product_verifier/profile_page.dart';
+import 'package:product_verifier/request_list_page.dart';
 import 'package:product_verifier/scanner_page.dart';
 
 import 'dashboard_page.dart';
@@ -27,13 +28,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     _user = widget._user;
+    _children.add(QRScanPage(user: _user));
+    _children.add(DashboardPage(),);
     _children.add(ProfilePage(_user));
     super.initState();
   }
 
   final List<Widget> _children = [
-    QRScanPage(),
-    DashboardPage(),
+    
   ];
 
   void onTabTapped(int index) {
@@ -50,6 +52,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void requestsPage(BuildContext ctx) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return RequestListPage(
+        user: _user,
+      );
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,11 +68,18 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.greenAccent,
         actions: [
           IconButton(
-              onPressed: () async{
-                await Authentication.signOut(context: context);
-                logout(context);
-              },
-              icon: Icon(Icons.logout))
+            onPressed: () {
+              requestsPage(context);
+            },
+            icon: Icon(Icons.receipt),
+          ),
+          IconButton(
+            onPressed: () async {
+              await Authentication.signOut(context: context);
+              logout(context);
+            },
+            icon: Icon(Icons.logout),
+          ),
         ],
       ),
       body: _children[_currentIndex],

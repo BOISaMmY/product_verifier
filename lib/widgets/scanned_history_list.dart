@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:product_verifier/widgets/product_category_image.dart';
 import './history_product_details.dart';
@@ -7,14 +8,20 @@ import './product_status_icon.dart';
 class ScannedHistoryList extends StatelessWidget {
   final List<Product> productHistory;
   final Function deletePr;
+  final User _user;
+  // ScannedHistoryList(this.productHistory, this.deletePr,{required User user});
 
-  ScannedHistoryList(this.productHistory, this.deletePr);
+  const ScannedHistoryList({Key? key, required User user, required Function adeletepr,required List<Product> aproductHistory,})
+      : _user = user,
+        deletePr = adeletepr,
+        productHistory = aproductHistory,
+        super(key: key);
 
-  showProductDetails(BuildContext ctx, Product pr) {
+  showProductDetails(BuildContext ctx, Product pr,User u) {
     showModalBottomSheet(
         context: ctx,
         builder: (bctx) {
-          return HistoryProductDetails(pr);
+          return HistoryProductDetails(pr,u);
         });
   }
 
@@ -28,7 +35,7 @@ class ScannedHistoryList extends StatelessWidget {
             return Card(
               child: ListTile(
                 onTap: () {
-                  showProductDetails(context, pr);
+                  showProductDetails(context, pr,_user);
                 },
                 title: Row(
                   children: [
@@ -47,8 +54,13 @@ class ScannedHistoryList extends StatelessWidget {
                     ),
                     Column(
                       children: [
-                        Text(pr.id, style: new TextStyle(fontWeight: FontWeight.w700,color: Colors.grey),),
-                        Text(pr.name, style: new TextStyle(fontWeight: FontWeight.w500)),
+                        Text(
+                          pr.id,
+                          style: new TextStyle(
+                              fontWeight: FontWeight.w700, color: Colors.grey),
+                        ),
+                        Text(pr.name,
+                            style: new TextStyle(fontWeight: FontWeight.w500)),
                       ],
                     ),
                   ],
