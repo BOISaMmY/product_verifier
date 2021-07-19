@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:product_verifier/main.dart';
 import 'package:product_verifier/models/urls.dart';
 import './models/requests.dart';
 import 'widgets/empty_status_widget.dart';
@@ -22,7 +21,6 @@ class RequestListPage extends StatefulWidget {
 class _RequestListPageState extends State<RequestListPage> {
   late User _user = widget._user;
   final List<Request> pendingRequests = [];
-  // late String email = _user.email;
   void getPendingRequests() {
     const url = URLS.base + "transferrequests";
     String par = json.encode(<String, String>{'rid': _user.email.toString()});

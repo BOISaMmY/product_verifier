@@ -28,7 +28,7 @@ class EmptyStatusWidget extends StatelessWidget {
             style: new TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: Colors.green[50],
+              color: Colors.green[100],
             ),
           ),
           Icon(

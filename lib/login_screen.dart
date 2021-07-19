@@ -12,9 +12,6 @@ class LoginScreen extends StatelessWidget {
 
   LoginScreen(this.title);
 
-  bool isSignIn = false;
-  bool google = false;
-
   void mainPage(BuildContext ctx, User user) {
     Navigator.of(ctx).pushReplacement(
       MaterialPageRoute(builder: (_) {

@@ -10,7 +10,6 @@ class ScannedHistoryList extends StatelessWidget {
   final List<Product> productHistory;
   final Function deletePr;
   final User _user;
-  // ScannedHistoryList(this.productHistory, this.deletePr,{required User user});
 
   const ScannedHistoryList({
     Key? key,
@@ -75,7 +74,6 @@ class ScannedHistoryList extends StatelessWidget {
                                 color: Colors.blue.shade50,
                               ),
                             ),
-                            // padding: EdgeInsets.all(2),
                           ),
                           Column(
                             children: [
