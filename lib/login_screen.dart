@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:product_verifier/my_home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:product_verifier/widgets/simple_round_icon_button.dart';
 import '../models/authentication.dart';
 import 'models/urls.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -63,12 +65,13 @@ class LoginScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Container(width:200,height: 200,child: Image.asset("assets/images/logo.png",fit: BoxFit.cover,)),
-                Text("ProVeri",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 25,color: Colors.blueAccent),),
+                Text("ProVeri",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 40,color: Colors.blueAccent),),
                   Container(
                     margin: EdgeInsets.only(top: 100),
-                    child: SignInButton(
-                      
-                      Buttons.Google,
+                    child: SimpleRoundIconButton(
+                        backgroundColor: Colors.orange,
+                        buttonText: Text("Continue with Google",style: TextStyle(color: Colors.white),),
+                        icon: Icon(FontAwesomeIcons.google),
                         onPressed: () async {
                           User? user =
                               await Authentication.signInWithGoogle(context: context);
