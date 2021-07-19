@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:product_verifier/models/urls.dart';
 import 'package:product_verifier/widgets/product_status_title.dart';
 import './product_status_icon.dart';
 import '../models/product.dart';
@@ -19,7 +20,7 @@ class HistoryProductDetails extends StatelessWidget {
   );
 
   void requestTransfer(Product pr) {
-    const url = "http://171.61.1.1:8081/createtransferrequest";
+    const url = URLS.base+"createtransferrequest";
     print("YEAHHHHHHHHHHHHHHH");
     String par = json.encode(<String, String>{
       'rid': pr.curOwner,
@@ -55,6 +56,7 @@ class HistoryProductDetails extends StatelessWidget {
           ),
         ),
         DataTable(
+          headingRowHeight: 0.0,
           columns: [
             DataColumn(label: Text('')),
             DataColumn(label: Text('')),
@@ -95,6 +97,20 @@ class HistoryProductDetails extends StatelessWidget {
               DataCell(
                 Text(
                   pr.manufacturer,
+                  style: tableItems,
+                ),
+              ),
+            ]),
+            DataRow(cells: [
+              DataCell(
+                Text(
+                  "Current Owner: ",
+                  style: tableHeaders,
+                ),
+              ),
+              DataCell(
+                Text(
+                  pr.curOwner,
                   style: tableItems,
                 ),
               ),

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:product_verifier/my_home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import '../models/authentication.dart';
+import 'models/urls.dart';
 
 class LoginScreen extends StatelessWidget {
   final String title;
@@ -23,6 +26,24 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
+  void loginBackend(User user){
+    const url = URLS.base+"login";
+    print("YEAHHHHHHHHHHHHHHH");
+    String par = json.encode(<String, String>{
+      'name': user.displayName.toString(),
+      'email': user.email.toString()
+    });
+    print(par);
+    http
+        .post(
+          Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: par,
+        )
+        .then((response) {});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +64,7 @@ class LoginScreen extends StatelessWidget {
                       await Authentication.signInWithGoogle(context: context);
 
                   if (user != null) {
+                    loginBackend(user);
                     mainPage(context, user);
                   }
                 });

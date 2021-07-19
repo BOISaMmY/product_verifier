@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:product_verifier/main.dart';
+import 'package:product_verifier/models/urls.dart';
 import './models/requests.dart';
+import 'widgets/empty_status_widget.dart';
 import 'widgets/product_category_image.dart';
 
 class RequestListPage extends StatefulWidget {
@@ -21,8 +24,7 @@ class _RequestListPageState extends State<RequestListPage> {
   final List<Request> pendingRequests = [];
   // late String email = _user.email;
   void getPendingRequests() {
-    // pendingRequests.clear();
-    const url = "http://171.61.1.1:8081/transferrequests";
+    const url = URLS.base + "transferrequests";
     String par = json.encode(<String, String>{'rid': _user.email.toString()});
     print(par);
     http
@@ -55,7 +57,7 @@ class _RequestListPageState extends State<RequestListPage> {
   }
 
   void deleteTransferRequest(Request req) {
-    const url = "http://171.61.1.1:8081/deletetransferrequest";
+    const url = URLS.base + "deletetransferrequest";
     String par = json.encode(
         <String, String>{'rid': req.rid, 'pid': req.pid, 'sid': req.sid});
     print(par);
@@ -74,7 +76,7 @@ class _RequestListPageState extends State<RequestListPage> {
   }
 
   void acceptTransferRequest(Request req) {
-    const url = "http://171.61.1.1:8081/accepttransferrequest";
+    const url = URLS.base + "accepttransferrequest";
     String par = json.encode(
         <String, String>{'rid': req.rid, 'pid': req.pid, 'sid': req.sid});
     print(par);
@@ -109,78 +111,93 @@ class _RequestListPageState extends State<RequestListPage> {
       ),
       body: Container(
         height: 580,
-        child: SingleChildScrollView(
-          child: Column(
-            children: pendingRequests.reversed.map((pr) {
-              return Card(
-                child: ListTile(
-                  onTap: () {},
-                  title: Row(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        child: ProductCategoryImage(pr.ptype),
-                        margin: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.blue.shade50,
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+        child: pendingRequests.isEmpty
+            ? Container(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  EmptyStatusWidget(
+                      title: "You don't have any \npending requests...",
+                      type: 2,
+                    ),
+                ],
+              ),
+            )
+            : SingleChildScrollView(
+                child: Column(
+                  children: pendingRequests.reversed.map((pr) {
+                    return Card(
+                      child: ListTile(
+                        onTap: () {},
+                        title: Row(
                           children: [
-                            Text(
-                              pr.pid,
-                              style: new TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.grey,
+                            Container(
+                              height: 50,
+                              width: 50,
+                              child: ProductCategoryImage(pr.ptype),
+                              margin: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                  color: Colors.blue.shade50,
+                                ),
                               ),
                             ),
-                            Text(
-                              pr.pname,
-                              style: new TextStyle(fontWeight: FontWeight.w500),
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    pr.pid,
+                                    style: new TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    pr.pname,
+                                    style: new TextStyle(
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    pr.sid,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             ),
-                            Text(
-                              pr.sid,
-                              overflow: TextOverflow.ellipsis,
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                acceptTransferRequest(pr);
+                              },
+                              icon: Icon(
+                                Icons.done,
+                                color: Colors.green,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                deleteTransferRequest(pr);
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Colors.red,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          acceptTransferRequest(pr);
-                        },
-                        icon: Icon(
-                          Icons.done,
-                          color: Colors.green,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          deleteTransferRequest(pr);
-                        },
-                        icon: Icon(
-                          Icons.close,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
+                    );
+                  }).toList(),
                 ),
-              );
-            }).toList(),
-          ),
-        ),
+              ),
       ),
     );
   }

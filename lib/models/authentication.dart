@@ -1,11 +1,34 @@
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import '../my_home_page.dart';
+import './urls.dart';
 
 class Authentication {
+
+  void loginBackend(User user){
+    const url = URLS.base+"login";
+    print("YEAHHHHHHHHHHHHHHH");
+    String par = json.encode(<String, String>{
+      'name': user.displayName.toString(),
+      'email': user.email.toString()
+    });
+    print(par);
+    http
+        .post(
+          Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: par,
+        )
+        .then((response) {});
+  }
+
   static Future<FirebaseApp> initializeFirebase({
     required BuildContext context,
   }) async {

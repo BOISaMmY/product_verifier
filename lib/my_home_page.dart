@@ -25,11 +25,15 @@ class _MyHomePageState extends State<MyHomePage> {
   late User _user = widget._user;
   late ProfilePage profpage;
 
+  void getOwnedProducts(){
+    
+  }
+
   @override
   void initState() {
     _user = widget._user;
     _children.add(QRScanPage(user: _user));
-    _children.add(DashboardPage(),);
+    _children.add(DashboardPage(user: _user),);
     _children.add(ProfilePage(_user));
     super.initState();
   }

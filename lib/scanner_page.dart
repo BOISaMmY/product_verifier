@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:product_verifier/models/urls.dart';
 import 'package:product_verifier/widgets/scanned_history_list.dart';
 import './models/product.dart';
 import 'dart:convert';
@@ -37,7 +38,7 @@ class _QRScanPageState extends State<QRScanPage> {
   int newScan = 1;
 
   void addNewHistory(String pId, String pManf, String pName, String pType) {
-    const url = "http://171.61.1.1:8081/verify";
+    const url = URLS.base+"verify";
     String par = json.encode(<String, String>{'manf': pManf, 'id': pId});
     http
         .post(
