@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import '../models/authentication.dart';
 import 'models/urls.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginScreen extends StatelessWidget {
   final String title;
@@ -54,17 +55,33 @@ class LoginScreen extends StatelessWidget {
           if (snapshot.hasError) {
             return Text('Error initializing Firebase');
           } else if (snapshot.connectionState == ConnectionState.done) {
-            return ElevatedButton(
-                child: Text("continue"),
-                onPressed: () async {
-                  User? user =
-                      await Authentication.signInWithGoogle(context: context);
+            return Container(
+              color: Colors.blue[50],
+              height: double.infinity,
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Container(width:200,height: 200,child: Image.asset("assets/images/logo.png",fit: BoxFit.cover,)),
+                Text("ProVeri",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 25,color: Colors.blueAccent),),
+                  Container(
+                    margin: EdgeInsets.only(top: 100),
+                    child: SignInButton(
+                      
+                      Buttons.Google,
+                        onPressed: () async {
+                          User? user =
+                              await Authentication.signInWithGoogle(context: context);
 
-                  if (user != null) {
-                    loginBackend(user);
-                    mainPage(context, user);
-                  }
-                });
+                          if (user != null) {
+                            loginBackend(user);
+                            mainPage(context, user);
+                          }
+                        }),
+                  ),
+                ],
+              ),
+            );
           }
           return CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(
