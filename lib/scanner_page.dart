@@ -18,27 +18,18 @@ class QRScanPage extends StatefulWidget {
   State<StatefulWidget> createState() => _QRScanPageState();
 }
 
-class _QRScanPageState extends State<QRScanPage> {
+class _QRScanPageState extends State<QRScanPage>
+    with AutomaticKeepAliveClientMixin<QRScanPage> {
+  bool get wantKeepAlive => true;
   late User _user = widget._user;
   final List<Product> productHistory = [
-    Product(
-      id: '001',
-      manufacturer: 'classmate',
-      name: 'notebook',
-      type: 'stationary',
-    ),
-    Product(
-      id: '002',
-      manufacturer: 'Xiaomi',
-      name: "POCO F1",
-      type: 'gadget',
-    ),
+    
   ];
   String qrCode = 'Unknown';
   int newScan = 1;
 
   void addNewHistory(String pId, String pManf, String pName, String pType) {
-    const url = URLS.base+"verify";
+    const url = URLS.base + "verify";
     String par = json.encode(<String, String>{'manf': pManf, 'id': pId});
     http
         .post(
@@ -78,6 +69,7 @@ class _QRScanPageState extends State<QRScanPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (newScan == 1) {
       scanQRCode();
     }
@@ -112,7 +104,10 @@ class _QRScanPageState extends State<QRScanPage> {
             ),
           ),
         ),
-        ScannedHistoryList(aproductHistory: productHistory, adeletepr: deleteProductCard,user:_user),
+        ScannedHistoryList(
+            aproductHistory: productHistory,
+            adeletepr: deleteProductCard,
+            user: _user),
       ],
     );
   }

@@ -31,17 +31,9 @@ class EmptyStatusWidget extends StatelessWidget {
               color: Colors.green[50],
             ),
           ),
-          // Container(
-          //     margin: EdgeInsets.only(top: 50),
-          //     height: 200,
-          //     width: 200,
-          //     child: Image.asset(
-          //       "assets/images/empty.png",
-          //       fit: BoxFit.cover,
-          //     )),
           Icon(
             gettype(type),
-            size: 100,
+            size: 200,
             color: Colors.green[50],
           )
         ],

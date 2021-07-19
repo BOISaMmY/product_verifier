@@ -24,27 +24,28 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 1;
   late User _user = widget._user;
   late ProfilePage profpage;
-
-  void getOwnedProducts(){
-    
-  }
-
+  late PageController _pageController;
   @override
   void initState() {
     _user = widget._user;
     _children.add(QRScanPage(user: _user));
-    _children.add(DashboardPage(user: _user),);
+    _children.add(DashboardPage(user: _user));
     _children.add(ProfilePage(_user));
+    _pageController = PageController(initialPage: _currentIndex);
     super.initState();
   }
 
-  final List<Widget> _children = [
-    
-  ];
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  final List<Widget> _children = [];
 
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
+      _pageController.jumpToPage(index);
     });
   }
 
@@ -86,7 +87,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: _children[_currentIndex],
+      body: PageView(
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: _children,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         selectedItemColor: Colors.greenAccent,
