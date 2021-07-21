@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.blueAccent,
         actions: [
           IconButton(
             onPressed: () {
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
-        selectedItemColor: Colors.greenAccent,
+        selectedItemColor: Colors.blueAccent,
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(

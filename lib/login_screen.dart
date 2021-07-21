@@ -26,8 +26,8 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void loginBackend(User user){
-    const url = URLS.base+"login";
+  void loginBackend(User user) {
+    const url = URLS.base + "login";
     print("YEAHHHHHHHHHHHHHHH");
     String par = json.encode(<String, String>{
       'name': user.displayName.toString(),
@@ -44,12 +44,13 @@ class LoginScreen extends StatelessWidget {
         )
         .then((response) {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.blueAccent,
       ),
       body: FutureBuilder(
         future: Authentication.initializeFirebase(context: context),
@@ -64,17 +65,33 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Container(width:200,height: 200,child: Image.asset("assets/images/logo.png",fit: BoxFit.cover,)),
-                Text("ProVeri",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 40,color: Colors.blueAccent),),
+                children: [
+                  Container(
+                      width: 200,
+                      height: 200,
+                      child: Image.asset(
+                        "assets/images/logo.png",
+                        fit: BoxFit.cover,
+                      )),
+                  Text(
+                    "ProVeri",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 40,
+                        color: Colors.blueAccent),
+                  ),
                   Container(
                     margin: EdgeInsets.only(top: 100),
                     child: SimpleRoundIconButton(
                         backgroundColor: Colors.orange,
-                        buttonText: Text("Continue with Google",style: TextStyle(color: Colors.white),),
+                        buttonText: Text(
+                          "Continue with Google",
+                          style: TextStyle(color: Colors.white),
+                        ),
                         icon: Icon(FontAwesomeIcons.google),
                         onPressed: () async {
-                          User? user =
-                              await Authentication.signInWithGoogle(context: context);
+                          User? user = await Authentication.signInWithGoogle(
+                              context: context);
 
                           if (user != null) {
                             loginBackend(user);

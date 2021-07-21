@@ -28,13 +28,13 @@ class EmptyStatusWidget extends StatelessWidget {
             style: new TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: Colors.green[100],
+              color: Colors.blue[100],
             ),
           ),
           Icon(
             gettype(type),
             size: 200,
-            color: Colors.green[50],
+            color: Colors.blue[50],
           )
         ],
       ),

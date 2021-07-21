@@ -105,24 +105,24 @@ class _RequestListPageState extends State<RequestListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Pending Requests"),
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.blueAccent,
       ),
       body: Container(
         height: 580,
         child: pendingRequests.isEmpty
             ? Container(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  EmptyStatusWidget(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    EmptyStatusWidget(
                       title: "You don't have any \npending requests...",
                       type: 2,
                     ),
-                ],
-              ),
-            )
+                  ],
+                ),
+              )
             : SingleChildScrollView(
                 child: Column(
                   children: pendingRequests.reversed.map((pr) {
